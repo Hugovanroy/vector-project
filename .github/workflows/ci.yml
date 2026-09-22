@@ -1,0 +1,18 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate flight data
+        run: python3 sim/flight_sim.py
+
+      - name: Compile flight computer
+        run: gcc firmware/flight_state.c -o flight
+
+      - name: Run tests
+        run: ./flight

@@ -18,6 +18,8 @@ const char* flightStateToString(FlightState state) {
     }
 }
 
+int tests_failed = 0;
+
 FlightState update_state(FlightState current, float altitude,
                          float accel_g, float max_altitude) {
     switch (current) {
@@ -45,6 +47,7 @@ void check(const char* name, FlightState got, FlightState expected) {
     } else {
         printf("FAIL: %s (expected %s, got %s)\n",
                name, flightStateToString(expected), flightStateToString(got));
+        tests_failed++;      // <-- add this line inside the else block
     }
 }
 
@@ -89,5 +92,5 @@ int main(void) {
     run_tests();
     printf("\n--- Replaying simulated flight ---\n");
     replay_flight("sim/flight_data.csv");
-    return 0;
+    return tests_failed;    
 }
