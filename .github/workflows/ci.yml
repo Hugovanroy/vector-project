@@ -21,3 +21,8 @@ jobs:
         run: |
           sudo apt-get install -y cppcheck
           cppcheck --error-exitcode=1 firmware/flight_state.c
+
+      - name: Dynamic analysis (sanitizers)
+        run: |
+          gcc -fsanitize=address,undefined -g firmware/flight_state.c -o flight_san
+          ./flight_san
